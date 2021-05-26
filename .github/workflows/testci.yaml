@@ -31,6 +31,8 @@ jobs:
       - name: "Install dependencies"
         run: |
           set -xe
+          cat /etc/os-release
+          df -h
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
