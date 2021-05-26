@@ -1,0 +1,47 @@
+name: GitHubActions-HelloWorld
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Linuxjob:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout pull request HEAD
+
+      - name: Add conda to PATH
+        shell: bash
+        run: echo "##vso[task.prependpath]$CONDA/bin"
+
+      - name: "Creating updated environment with conda-build..."
+        shell: bash
+        run: |
+          which conda
+          source activate
+          conda update --yes conda
+          conda create --yes --quiet --name bld --no-default-packages
+          conda install --yes --name bld conda-build
+                
+      - run: |
+          set -x
+          source activate bld
+          if [ ${VAR_ARCH} == "x86" ]; then
+            LINUX32=$(which linux32)
+            echo "LINUX32: ${LINUX32}"
+          fi
+          ${LINUX32} conda build --python "$VAR_PYTHON_VERSION" --output-folder channel recipe
+        name: "Building conda package..."
+
+
+      # - task: CopyFiles@2
+      #   inputs:
+      #     sourceFolder: '$(Build.SourcesDirectory)/channel/'
+      #     contents: '*/simpleitk*.tar.bz2'
+      #     targetFolder: $(Build.ArtifactStagingDirectory)
+      #     flattenFolders: false
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      #     artifactName: AnacondaPackage
