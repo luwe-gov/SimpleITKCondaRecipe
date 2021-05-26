@@ -7,7 +7,8 @@ on:
   # pull_request:
   #   branches: ["master"]
   workflow_dispatch:
-
+env: 
+  myenv1: 'luwe-hi'
 jobs:
   tests:
     name: "Python ${{ matrix.python-version }}"
@@ -33,5 +34,8 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions          
 
-      - name: "Run tox targets for ${{ matrix.python-version }}"
-        run: "python -m tox"
+#       - name: "Run tox targets for ${{ matrix.python-version }}"
+#         run: "python -m tox"
+
+      - name: "echo env"
+        run: "echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }} "
