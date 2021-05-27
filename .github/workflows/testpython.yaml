@@ -25,3 +25,4 @@ jobs:
         which conda
         conda info
         conda list
+        conda activate
