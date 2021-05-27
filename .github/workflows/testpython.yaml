@@ -5,8 +5,8 @@ on:
 
 jobs:
   build-linux:
-#     runs-on: ubuntu-latest
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+#     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
@@ -28,10 +28,10 @@ jobs:
         conda create --yes --quiet --name bld --no-default-packages
         conda install --yes --name bld conda-build
         echo "CONDA: $CONDA"
-        ls -lr $CONDA
+        ls -lr $CONDA/bin
     - name: building package
       run: |
         set -x
-        echo "CONDA: $CONDA"
-        ls -lr $CONDA/bin
+        conda build --python "3.8" --output-folder channel recipe
+        
     
