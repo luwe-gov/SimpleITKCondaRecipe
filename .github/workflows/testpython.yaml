@@ -27,3 +27,8 @@ jobs:
         conda update --yes conda
         conda create --yes --quiet --name bld --no-default-packages
         conda install --yes --name bld conda-build
+    - name: building package
+      run: |
+        set -x
+        source activate bld
+    
