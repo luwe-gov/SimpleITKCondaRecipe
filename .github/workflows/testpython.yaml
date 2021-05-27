@@ -18,3 +18,6 @@ jobs:
         # $CONDA is an environment variable pointing to the root of the miniconda directory
         # $CONDA/bin/conda env update --file environment.yml --name base
         echo "CONDA: $CONDA"
+        ls -lr $CONDA
+        echo $PATH
+        which conda
