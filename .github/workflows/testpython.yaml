@@ -23,7 +23,4 @@ jobs:
         which conda
     - run: |
         which conda
-        source activate
-        conda update --yes conda
-        conda create --yes --quiet --name bld --no-default-packages
-        conda install --yes --name bld conda-build
+        which activate
