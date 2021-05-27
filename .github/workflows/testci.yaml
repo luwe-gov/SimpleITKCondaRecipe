@@ -46,13 +46,14 @@ jobs:
 
       # - name: "Run tox targets for ${{ matrix.python-version }}"
       #   run: "python -m tox"
-      - name: Setup Conda dependencies
-        uses: goanpeca/setup-miniconda@v1
+      - name: Setup conda
+        uses: s-weigand/setup-conda@v1
         with:
-          activate-environment: lab
-          environment-file: environment.yml
+          update-conda: true
           python-version: ${{ matrix.python-version }}
-          auto-activate-base: false
+          conda-channels: anaconda, conda-forge
+      - run: conda --version
+      - run: which python
           
       - name: Install dependencies
         run: |
