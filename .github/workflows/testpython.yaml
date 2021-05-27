@@ -5,18 +5,18 @@ on:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
-#     runs-on: self-hosted
+#     runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-#     - uses: conda-incubator/setup-miniconda@v2
-#       with:
-#         miniconda-version: "latest"
-#         activate-environment: foo
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniconda-version: "latest"
+        activate-environment: foo
     - name: Bash
       shell: bash -l {0}
       run: |
