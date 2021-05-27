@@ -15,14 +15,19 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        # $CONDA/bin/conda env update --file environment.yml --name base
+        # $CONDA is an environment variable pointing to the root of the miniconda directory   
         echo "CONDA: $CONDA"
         ls -lr $CONDA
         echo $PATH
         which conda
+        conda env update --file environment.yml --name base
     - run: |
         which conda
         conda info
         conda list
-        conda activate
+#     - name: Install dependencies
+#       run: |
+#         # $CONDA is an environment variable pointing to the root of the miniconda directory
+#         # $CONDA/bin/conda env update --file environment.yml --name base
+#         echo "CONDA: $CONDA"  
+#         $CONDA/bin/conda env update --file environment.yml --name base
