@@ -25,9 +25,21 @@ jobs:
 
     steps:
       - uses: "actions/checkout@v2"
+      
+      - name: "checking "     
+        run: |
+           echo "CONDA: $CONDA"  
+           ls -l $CONDA/bin
+          
       - uses: "actions/setup-python@v2"
         with:
           python-version: "${{ matrix.python-version }}"
+          
+      - name: "checking2 "     
+        run: |
+           echo "CONDA: $CONDA"  
+           ls -l $CONDA/bin
+           
       - name: "Install dependencies"
         run: |
           set -xe
@@ -43,23 +55,32 @@ jobs:
       - name: "echo env"
         run: "echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }} "
 
-
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: "latest"
+          activate-environment: foo
+     
+      - name: "checking3 "     
+        run: |
+           echo "CONDA: $CONDA"  
+           ls -l $CONDA/bin     
+          
       # - name: "Run tox targets for ${{ matrix.python-version }}"
       #   run: "python -m tox"
-      - name: Setup conda
-        uses: s-weigand/setup-conda@v1
-        with:
-          update-conda: true
-          python-version: ${{ matrix.python-version }}
-          conda-channels: anaconda, conda-forge
-      - run: conda --version
-      - run: which python
+#       - name: Setup conda
+#         uses: s-weigand/setup-conda@v1
+#         with:
+#           update-conda: true
+#           python-version: ${{ matrix.python-version }}
+#           conda-channels: anaconda, conda-forge
+#       - run: conda --version
+#       - run: which python
           
-      - name: Install dependencies
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          # $CONDA/bin/conda env update --file environment.yml --name base
-          echo "CONDA: $CONDA"    
+#       - name: Install dependencies
+#         run: |
+#           # $CONDA is an environment variable pointing to the root of the miniconda directory
+#           # $CONDA/bin/conda env update --file environment.yml --name base
+#           echo "CONDA: $CONDA"    
       
       - name: Conda info
 #         shell: bash -l {0}  # activate the conda environment
