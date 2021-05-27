@@ -33,5 +33,5 @@ jobs:
       run: |
         set -x
         echo "CONDA: $CONDA"
-        ls -lr $CONDA
+        ls -lr $CONDA/bin
     
