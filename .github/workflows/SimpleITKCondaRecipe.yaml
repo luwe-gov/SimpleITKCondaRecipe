@@ -1,38 +1,49 @@
-name: GitHubActions-HelloWorld
+name: Linux Conda build
 
 on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
   workflow_dispatch:
+
+env:
+  conda_version: 4.7.5
+  conda_build_version: 3.18
 
 jobs:
   Linuxjob:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+#         python_version: [3.6, 3.7, 3.8, 3.9]
+        python_version: [3.9]
     steps:
       - uses: actions/checkout@v2
-        name: Checkout pull request HEAD
+        name: Checkout 
 
       - name: Add conda to PATH
         shell: bash
         run: echo "##vso[task.prependpath]$CONDA/bin"
 
-      - name: "Creating updated environment with conda-build..."
-        shell: bash
-        run: |
-          which conda
-          source activate
-          conda update --yes conda
-          conda create --yes --quiet --name bld --no-default-packages
-          conda install --yes --name bld conda-build
+#       - name: "Creating updated environment with conda-build..."
+#         shell: bash
+#         run: |
+#           which conda
+#           source activate
+#           conda update --yes conda
+#           conda create --yes --quiet --name bld --no-default-packages
+#           conda install --yes --name bld conda-build
                 
-      - run: |
-          set -x
-          source activate bld
-          if [ ${VAR_ARCH} == "x86" ]; then
-            LINUX32=$(which linux32)
-            echo "LINUX32: ${LINUX32}"
-          fi
-          ${LINUX32} conda build --python "$VAR_PYTHON_VERSION" --output-folder channel recipe
-        name: "Building conda package..."
+#       - run: |
+#           set -x
+#           source activate bld
+#           if [ ${VAR_ARCH} == "x86" ]; then
+#             LINUX32=$(which linux32)
+#             echo "LINUX32: ${LINUX32}"
+#           fi
+#           ${LINUX32} conda build --python "$VAR_PYTHON_VERSION" --output-folder channel recipe
+#         name: "Building conda package..."
 
 
       # - task: CopyFiles@2
