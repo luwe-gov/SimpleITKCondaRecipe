@@ -30,6 +30,7 @@ jobs:
         shell: bash
         run: |
           which conda
+          source activate
           conda update --yes conda
 
 #       - name: "Creating updated environment with conda-build..."
