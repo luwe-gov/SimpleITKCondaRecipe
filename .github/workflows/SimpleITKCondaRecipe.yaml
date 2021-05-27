@@ -26,6 +26,12 @@ jobs:
         shell: bash
         run: echo "##vso[task.prependpath]$CONDA/bin"
 
+      - name: run conda
+        shell: bash
+        run: |
+          which conda
+          conda update --yes conda
+
 #       - name: "Creating updated environment with conda-build..."
 #         shell: bash
 #         run: |
