@@ -27,11 +27,13 @@ jobs:
         conda update --yes conda
         conda create --yes --quiet --name bld --no-default-packages
         conda install --yes --name bld conda-build
+        conda build --python "3.8" --output-folder channel recipe
         echo "CONDA: $CONDA"
         ls -lr $CONDA/bin
     - name: building package
       run: |
         set -x
-        conda build --python "3.8" --output-folder channel recipe
+        echo "CONDA2: $CONDA"
+        ls -lr $CONDA/bin
         
     
