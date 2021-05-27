@@ -35,7 +35,12 @@ jobs:
           conda create --yes --quiet --name bld --no-default-packages
           conda install --yes --name bld conda-build
           
-
+      - name: "Building conda package..."
+        shell: bash
+        run: |          
+          set -x
+          source activate bld
+          ${LINUX32} conda build --python ${{ matrix.python_version }} --output-folder channel recipe
 #       - name: "Creating updated environment with conda-build..."
 #         shell: bash
 #         run: |
