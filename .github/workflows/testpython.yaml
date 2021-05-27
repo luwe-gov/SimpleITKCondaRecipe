@@ -23,4 +23,5 @@ jobs:
         which conda
     - run: |
         which conda
-        which activate
+        conda info
+        conda list
