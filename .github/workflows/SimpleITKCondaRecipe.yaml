@@ -24,7 +24,7 @@ jobs:
 
       - name: Add conda to PATH
         shell: bash
-        run: echo "##vso[task.prependpath]$CONDA/bin"
+        run: echo "$CONDA/bin" >> $GITHUB_PATH
 
       - name: run conda
         shell: bash
