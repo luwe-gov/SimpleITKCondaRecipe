@@ -46,8 +46,24 @@ jobs:
 
       # - name: "Run tox targets for ${{ matrix.python-version }}"
       #   run: "python -m tox"
-
+      - name: Setup Conda dependencies
+        uses: goanpeca/setup-miniconda@v1
+        with:
+          activate-environment: lab
+          environment-file: environment.yml
+          python-version: ${{ matrix.python-version }}
+          auto-activate-base: false
+          
       - name: Install dependencies
         run: |
           # $CONDA is an environment variable pointing to the root of the miniconda directory
-          $CONDA/bin/conda env update --file environment.yml --name base
+          # $CONDA/bin/conda env update --file environment.yml --name base
+          echo "CONDA: $CONDA"    
+      
+      - name: Conda info
+#         shell: bash -l {0}  # activate the conda environment
+        run: |
+          conda info
+          conda list
+          
+
