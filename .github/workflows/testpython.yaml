@@ -22,4 +22,8 @@ jobs:
       run: |
         conda info
         conda list
-
+    - name: Bash2
+      run: |
+        conda update --yes conda
+        conda create --yes --quiet --name bld --no-default-packages
+        conda install --yes --name bld conda-build
