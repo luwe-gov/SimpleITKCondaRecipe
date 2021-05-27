@@ -27,8 +27,11 @@ jobs:
         conda update --yes conda
         conda create --yes --quiet --name bld --no-default-packages
         conda install --yes --name bld conda-build
+        echo "CONDA: $CONDA"
+        ls -lr $CONDA
     - name: building package
       run: |
         set -x
-        conda activate bld
+        echo "CONDA: $CONDA"
+        ls -lr $CONDA
     
