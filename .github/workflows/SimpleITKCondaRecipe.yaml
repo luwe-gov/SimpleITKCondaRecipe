@@ -47,13 +47,15 @@ jobs:
         run: |          
           set -x
           echo $GITHUB_WORKSPACE
+          echo "github.workspace: ${{github.workspace}}"
+          echo "RUNNER_OS $RUNNER_OS"
           ls -l $GITHUB_WORKSPACE
           ls -lR $GITHUB_WORKSPACE/channel
 
       - uses: actions/upload-artifact@v2
         with:
           name: AnacondaPackage
-          path: "${{github.ref}}/channel/*/simpleitk*.tar.bz2"
+          path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
 
 
 #       - name: "Creating updated environment with conda-build..."
