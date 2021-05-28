@@ -23,6 +23,13 @@ jobs:
         name: Checkout 
       - name: Take ownership of conda installation
         run: sudo chown -R $USER $CONDA
+        shell: bash 
+      - name: "Creating updated environment with conda-build..."
         shell: bash
+        run: |
+          ls -l
+          pwd
+          echo "GITHUB_WORKSPACE $GITHUB_WORKSPACE"
+          ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
         
  
