@@ -40,15 +40,15 @@ jobs:
            echo "CONDA: $CONDA"  
            ls -l $CONDA/bin
            
-      - name: "Install dependencies"
-        run: |
-          set -xe
-          cat /etc/os-release
-          df -h
-          python -VV
-          python -m site
-          python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions          
+#       - name: "Install dependencies"
+#         run: |
+#           set -xe
+#           cat /etc/os-release
+#           df -h
+#           python -VV
+#           python -m site
+#           python -m pip install --upgrade pip setuptools wheel
+#           python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions          
 
 
 
@@ -62,8 +62,16 @@ jobs:
      
       - name: "checking3 "     
         run: |
+           set -x
            echo "CONDA: $CONDA"  
-           ls -l $CONDA/bin     
+           ls -l $CONDA/bin 
+           echo "action_state=yellow" >> $GITHUB_ENV
+      - name: "Use the value"
+        id: step_two
+        run: |
+          echo "${{ env.action_state }}" # This will output 'yellow'
+          echo "action_state: $action_state"
+
           
       # - name: "Run tox targets for ${{ matrix.python-version }}"
       #   run: "python -m tox"
