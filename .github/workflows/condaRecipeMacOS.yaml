@@ -18,6 +18,8 @@ jobs:
       matrix:
 #         python_version: [3.6, 3.7, 3.8, 3.9]
         python_version: [3.9]
+    env:
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
     steps:
       - uses: actions/checkout@v2
         name: Checkout 
@@ -31,5 +33,26 @@ jobs:
           pwd
           echo "GITHUB_WORKSPACE $GITHUB_WORKSPACE"
           ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
-        
- 
+          cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
+          CONDA_BUILD_SYSROOT:
+             - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
+          MACOSX_DEPLOYMENT_TARGET:
+             - ${MACOSX_DEPLOYMENT_TARGET}
+          EOF
+
+          cat << EOF > ~/.condarc
+          conda_build:
+            config_file: ${GITHUB_WORKSPACE}/conda_build_config.yml
+          EOF
+          
+          source activate
+          conda update --yes conda
+          conda create --yes --quiet --name bld --no-default-packages
+          conda install --yes --name bld conda-build
+      - name: "Building conda package..."
+        shell: bash
+        run: |
+          export PYTHONUNBUFFERED=1
+          set -x
+          source activate bld
+          conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
