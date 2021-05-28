@@ -1,0 +1,28 @@
+name: MacOS Conda build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  conda_version: 4.7.5
+  conda_build_version: 3.18
+
+jobs:
+  Linuxjob:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+#         python_version: [3.6, 3.7, 3.8, 3.9]
+        python_version: [3.9]
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout 
+      - name: Take ownership of conda installation
+        run: sudo chown -R $USER $CONDA
+        shell: bash
+        
+ 
