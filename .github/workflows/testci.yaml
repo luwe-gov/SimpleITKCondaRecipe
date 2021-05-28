@@ -62,13 +62,16 @@ jobs:
       - name: "checking3 "     
         run: |
            set -x
-           echo "action_state=yellow" >> $GITHUB_ENV
+           echo "action_state=$(date)" >> $GITHUB_ENV
       - name: "Use the value"
         id: step_two
         run: |
           set -x
           echo "${{ env.action_state }} --- testing " # This will output 'yellow'
           echo "action_state: $action_state"
+          echo "action_state1: $ACTION_STATE"
+          echo "action_state2: $VAR_ACTION_STATE"
+          echo "action_state3: $GITHUB_ACTION_STATE"
 
           
       # - name: "Run tox targets for ${{ matrix.python-version }}"
@@ -88,10 +91,10 @@ jobs:
 #           # $CONDA/bin/conda env update --file environment.yml --name base
 #           echo "CONDA: $CONDA"    
       
-      - name: Conda info
+#       - name: Conda info
 #         shell: bash -l {0}  # activate the conda environment
-        run: |
-          conda info
-          conda list
+#         run: |
+#           conda info
+#           conda list
           
 
