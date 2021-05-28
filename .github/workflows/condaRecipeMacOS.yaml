@@ -26,6 +26,9 @@ jobs:
       - name: Take ownership of conda installation
         run: sudo chown -R $USER $CONDA
         shell: bash 
+      - name: Add conda to PATH
+        shell: bash
+        run: echo "$CONDA/bin" >> $GITHUB_PATH
       - name: "Creating updated environment with conda-build..."
         shell: bash
         run: |
