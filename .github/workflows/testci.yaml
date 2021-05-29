@@ -11,7 +11,7 @@ env:
   myenv1: 'luwe-hi'
 jobs:
   tests:
-    name: "Python ${{ matrix.python-version }}"
+    name: "Python ${{ matrix.minecraft.jar }}"
 #     runs-on: "self-hosted"
     runs-on: "ubuntu-latest"
     env:
