@@ -30,52 +30,54 @@ jobs:
       - name: Add conda to PATH
         shell: bash
         run: echo "$CONDA/bin" >> $GITHUB_PATH
-      - name: "test environment with conda-build..."
+#       - name: "test environment with conda-build..."
+#         shell: bash
+#         run: |
+#           set -x
+#           xcode-select -p
+#           ls -l /Applications/Xcode*
+#           ls -l /Applications
+#           sudo xcode-select --switch /Applications/Xcode_11.7.0.app
+#           xcode-select -p
+#           xcodebuild -version
+
+
+      - name: "Creating updated environment with conda-build..."
         shell: bash
         run: |
           set -x
-          xcode-select -p
-          ls -l /Applications/Xcode*
-          ls -l /Applications
+          ls -l
+          pwd
+          echo $USER $CONDA
+          ls -l $CONDA
+          ls -l $CONDA/bin
+          echo "GITHUB_WORKSPACE ---- $GITHUB_WORKSPACE"
           sudo xcode-select --switch /Applications/Xcode_11.7.0.app
           xcode-select -p
-          xcodebuild -version
+          # ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
+          echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
+          curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz
+          tar -xf MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz -C "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
+          cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
+          CONDA_BUILD_SYSROOT:
+             - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
+          MACOSX_DEPLOYMENT_TARGET:
+             - ${MACOSX_DEPLOYMENT_TARGET}
+          EOF
 
-
-#       - name: "Creating updated environment with conda-build..."
-#         shell: bash
-#         run: |
-#           set -x
-#           ls -l
-#           pwd
-#           echo $USER $CONDA
-#           ls -l $CONDA
-#           ls -l $CONDA/bin
-#           echo "GITHUB_WORKSPACE ---- $GITHUB_WORKSPACE"
-#           # ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
-#           echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
-#           curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz
-#           tar -xf MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz -C "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
-#           cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
-#           CONDA_BUILD_SYSROOT:
-#              - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
-#           MACOSX_DEPLOYMENT_TARGET:
-#              - ${MACOSX_DEPLOYMENT_TARGET}
-#           EOF
-
-#           cat << EOF > ~/.condarc
-#           conda_build:
-#             config_file: ${GITHUB_WORKSPACE}/conda_build_config.yml
-#           EOF
+          cat << EOF > ~/.condarc
+          conda_build:
+            config_file: ${GITHUB_WORKSPACE}/conda_build_config.yml
+          EOF
           
-#           source activate
-#           conda update --yes conda
-#           conda create --yes --quiet --name bld --no-default-packages
-#           conda install --yes --name bld conda-build
-#       - name: "Building conda package..."
-#         shell: bash
-#         run: |
-#           export PYTHONUNBUFFERED=1
-#           set -x
-#           source activate bld
-#           conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
+          source activate
+          conda update --yes conda
+          conda create --yes --quiet --name bld --no-default-packages
+          conda install --yes --name bld conda-build
+      - name: "Building conda package..."
+        shell: bash
+        run: |
+          export PYTHONUNBUFFERED=1
+          set -x
+          source activate bld
+          conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
