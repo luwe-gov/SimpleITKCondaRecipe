@@ -24,6 +24,7 @@ jobs:
         python-version: ["3.8"]
         minecraft:
           - { jar: paper-1.15.2, dockerfile: Dockerfile }
+          - { jar: nukkit-2.0, dockerfile: Dockerfile-nukkit }
     steps:
       - uses: "actions/checkout@v2"
       
@@ -40,7 +41,7 @@ jobs:
         run: |
            echo "RUNNER_OS: $RUNNER_OS"
            echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }}
-           echo jar: ${{ matrix.minecraft.jar }}
+           echo jar: ${{ matrix.minecraft.jar }}  Docker: ${{ matrix.minecraft.dockerfile }} 
            
            
 #       - name: "Install dependencies"
