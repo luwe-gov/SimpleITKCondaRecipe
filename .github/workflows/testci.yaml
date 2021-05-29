@@ -22,7 +22,8 @@ jobs:
       matrix:
         # python-version: ["3.6", "3.7", "3.8", "pypy3"]
         python-version: ["3.8"]
-
+        minecraft:
+          - { jar: paper-1.15.2, dockerfile: Dockerfile }
     steps:
       - uses: "actions/checkout@v2"
       
@@ -37,7 +38,10 @@ jobs:
           
       - name: "checking2 "     
         run: |
-           echo "RUNNER_OS: $RUNNER_OS"  
+           echo "RUNNER_OS: $RUNNER_OS"
+           echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }}
+           echo jar: ${{ matrix.minecraft.jar }}
+           
            
 #       - name: "Install dependencies"
 #         run: |
