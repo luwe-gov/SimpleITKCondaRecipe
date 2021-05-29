@@ -20,7 +20,7 @@ jobs:
 #         python_version: [3.6, 3.7, 3.8, 3.9]
         python_version: [39]
     env:
-      MACOSX_DEPLOYMENT_TARGET: '10.15'
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
     steps:
       - uses: actions/checkout@v2
         name: Checkout 
