@@ -35,6 +35,8 @@ jobs:
         run: |
           set -x
           xcode-select -p
+          sudo xcode-select --switch /Applications/Xcode11.3.app
+          xcode-select -p
           xcodebuild -version
 
 
