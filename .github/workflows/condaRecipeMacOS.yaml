@@ -37,7 +37,7 @@ jobs:
           xcode-select -p
           ls -l /Applications/Xcode*
           ls -l /Applications
-          # sudo xcode-select --switch /Applications/Xcode11.3.app
+          # sudo xcode-select --switch /Applications/Xcode_11.7.0.app
           xcode-select -p
           xcodebuild -version
 
