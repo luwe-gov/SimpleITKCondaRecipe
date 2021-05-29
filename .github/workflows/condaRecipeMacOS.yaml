@@ -12,7 +12,7 @@ env:
   conda_build_version: 3.18
 
 jobs:
-  Linuxjob:
+  MacOSjob:
     runs-on: macos-latest
 #     runs-on: macos-latest
     strategy:
@@ -40,7 +40,10 @@ jobs:
           ls -l $CONDA
           ls -l $CONDA/bin
           echo "GITHUB_WORKSPACE $GITHUB_WORKSPACE"
-          ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
+          # ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
+          echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
+          curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX10.15.sdk.tar.xz
+          tar -xf MacOSX10.15.sdk.tar.xz -C "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
           cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
           CONDA_BUILD_SYSROOT:
              - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
