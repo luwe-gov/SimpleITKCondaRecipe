@@ -46,17 +46,8 @@ jobs:
         shell: bash
         run: |
           set -x
-          ls -l
-          pwd
-          echo $USER $CONDA
-          ls -l $CONDA
-          ls -l $CONDA/bin
-          echo "GITHUB_WORKSPACE ---- $GITHUB_WORKSPACE"
-          xcode-select -p
-          ls -l /Applications/Xcode*
-          ls -l /Applications
-          # sudo xcode-select --switch /Applications/Xcode_11.7.0.app
-          sudo xcode-select --switch /Applications/Xcode_12.4.app
+          sudo xcode-select --switch /Applications/Xcode_11.7.0.app
+          # sudo xcode-select --switch /Applications/Xcode_12.4.app
           xcode-select -p
           # ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
           echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
