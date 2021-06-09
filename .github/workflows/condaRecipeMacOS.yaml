@@ -70,6 +70,9 @@ jobs:
           conda update --yes conda
           conda create --yes --quiet --name bld --no-default-packages
           conda install --yes --name bld conda-build
+          ls -l ${GITHUB_WORKSPACE}/conda_build_config.yml ~/.condarc
+          cat ${GITHUB_WORKSPACE}/conda_build_config.yml
+          cat ~/.condarc
       - name: "Building conda package..."
         shell: bash
         run: |
