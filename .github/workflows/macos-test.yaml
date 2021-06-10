@@ -47,6 +47,7 @@ jobs:
         shell: bash
         run: |
           set -x
+          sudo xcode-select --switch /Applications/Xcode_11.7.0.app
           xcode-select -p
           echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
           curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz
