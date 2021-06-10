@@ -68,10 +68,10 @@ jobs:
           cat ${GITHUB_WORKSPACE}/conda_build_config.yml
           cat ~/.condarc
           ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
-#       - name: "Building conda package..."
-#         shell: bash
-#         run: |
-#           export PYTHONUNBUFFERED=1
-#           set -x
-#           source activate bld
-#           conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
+      - name: "Building conda package..."
+        shell: bash
+        run: |
+          export PYTHONUNBUFFERED=1
+          set -x
+          source activate bld
+          conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
