@@ -136,3 +136,13 @@ jobs:
         with:
           name: AnacondaPackage
           path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
+
+  job3:
+    needs: [Linuxjob, MacOSjob]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dependant is Running
+      run: |
+        echo "Sleeping for 10"
+        sleep 10
+        echo "Linuxjob, MacOSjob are completed!!! $(date)"
