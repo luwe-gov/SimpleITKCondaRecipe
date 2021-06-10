@@ -1,4 +1,4 @@
-name: Linux Conda build
+name: SimpleITKCondaRecipe build
 
 on:
 #   push:
