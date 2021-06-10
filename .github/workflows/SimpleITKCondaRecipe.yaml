@@ -13,6 +13,7 @@ env:
 
 jobs:
   Linuxjob:
+    name: "Linuxjob ${{ matrix.python_version }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
