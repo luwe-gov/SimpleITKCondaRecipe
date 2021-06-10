@@ -137,7 +137,7 @@ jobs:
           name: AnacondaPackage
           path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
 
-  job3:
+  Approvaljob:
     needs: [Linuxjob, MacOSjob]
     runs-on: ubuntu-latest
     steps:
