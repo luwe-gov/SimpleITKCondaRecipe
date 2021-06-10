@@ -31,23 +31,23 @@ jobs:
       - name: Add conda to PATH
         shell: bash
         run: echo "$CONDA/bin" >> $GITHUB_PATH
-#       - name: "test environment with conda-build..."
-#         shell: bash
-#         run: |
-#           set -x
-#           xcode-select -p
-#           ls -l /Applications/Xcode*
-#           ls -l /Applications
-#           sudo xcode-select --switch /Applications/Xcode_11.7.0.app
-#           xcode-select -p
-#           xcodebuild -version
+      - name: "test environment with conda-build..."
+        shell: bash
+        run: |
+          set -x
+          xcode-select -p
+          ls -l /Applications/Xcode*
+          ls -l /Applications
+          xcode-select -p
+          xcodebuild -version
+          ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
 
 
       - name: "Creating updated environment with conda-build..."
         shell: bash
         run: |
           set -x
-          sudo xcode-select --switch /Applications/Xcode_11.7.0.app
+          # sudo xcode-select --switch /Applications/Xcode_11.7.0.app
           # sudo xcode-select --switch /Applications/Xcode_12.4.app
           xcode-select -p
           # ${GITHUB_WORKSPACE}/.azure-pipelines/support/osx_install_sdk.sh
@@ -73,10 +73,11 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/conda_build_config.yml ~/.condarc
           cat ${GITHUB_WORKSPACE}/conda_build_config.yml
           cat ~/.condarc
-      - name: "Building conda package..."
-        shell: bash
-        run: |
-          export PYTHONUNBUFFERED=1
-          set -x
-          source activate bld
-          conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
+          ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
+#       - name: "Building conda package..."
+#         shell: bash
+#         run: |
+#           export PYTHONUNBUFFERED=1
+#           set -x
+#           source activate bld
+#           conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
