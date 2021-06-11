@@ -22,9 +22,7 @@ jobs:
       - uses: actions/checkout@v2
         name: Checkout 
 
-#       - name: Add conda to PATH
-#         shell: bash
-#         run: echo "$CONDA/bin" >> $GITHUB_PATH
+
       - name: Conda info 00
         shell: bash
         run: |
@@ -51,6 +49,9 @@ jobs:
           conda list
           conda config --show-sources
           conda config --show
+      - name: Add conda to PATH
+        shell: bash
+        run: echo "$CONDA/bin" >> $GITHUB_PATH
       - name: "Creating updated environment with conda-build..."
         shell: bash
         run: |
