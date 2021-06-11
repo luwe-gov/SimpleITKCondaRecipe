@@ -30,6 +30,8 @@ jobs:
       - name: "Creating updated environment with conda-build..."
         shell: bash
         run: |
+          echo "conda_version: $conda_version"
+          echo "conda_build_version: $conda_build_version"
           which conda
           conda -V
           conda info
