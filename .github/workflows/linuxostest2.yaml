@@ -25,6 +25,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Conda info
         shell: bash
-        run: |
+      - run: |
           conda info
           conda list
+          conda config --show-sources
+          conda config --show
