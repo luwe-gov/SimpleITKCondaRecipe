@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
 #         python_version: [36, 37, 38, 39]
-        python_version: [3.8]
+        python_version: [38]
     steps:
       - uses: actions/checkout@v2
         name: Checkout 
