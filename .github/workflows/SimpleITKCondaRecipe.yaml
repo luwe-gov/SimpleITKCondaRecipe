@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python_version: [36, 37, 38, 39]
-#         python_version: [3.9]
+#         python_version: [36, 37, 38, 39]
+        python_version: [3.8]
     steps:
       - uses: actions/checkout@v2
         name: Checkout 
@@ -58,91 +58,91 @@ jobs:
           name: AnacondaPackage
           path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
 
-  MacOSjob:
-    name: "MacOSjob ${{ matrix.python_version }}"
-    runs-on: macos-latest
+#   MacOSjob:
+#     name: "MacOSjob ${{ matrix.python_version }}"
 #     runs-on: macos-latest
-    strategy:
-      matrix:
-        python_version: [36, 37, 38, 39]
-#         python_version: [39]
-    env:
-      MACOSX_DEPLOYMENT_TARGET: '10.15'
-#       MACOSX_DEPLOYMENT_TARGET: '11.1'
-    steps:
-      - uses: actions/checkout@v2
-        name: Checkout 
-      - name: Take ownership of conda installation
-        run: sudo chown -R $USER $CONDA
-        shell: bash 
-      - name: Add conda to PATH
-        shell: bash
-        run: echo "$CONDA/bin" >> $GITHUB_PATH
-      - name: "test environment with conda-build..."
-        shell: bash
-        run: |
-          set -x
-          xcode-select -p
-          ls -l /Applications/Xcode*
-          ls -l /Applications
-          xcode-select -p
-          xcodebuild -version
-          ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
-      - name: "Creating updated environment with conda-build..."
-        shell: bash
-        run: |
-          set -x
-          sudo xcode-select --switch /Applications/Xcode_11.7.0.app
-          xcode-select -p
-          echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
-          curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz
-          tar -xf MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz -C "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
-          cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
-          CONDA_BUILD_SYSROOT:
-             - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
-          MACOSX_DEPLOYMENT_TARGET:
-             - ${MACOSX_DEPLOYMENT_TARGET}
-          EOF
-          cat << EOF > ~/.condarc
-          conda_build:
-            config_file: ${GITHUB_WORKSPACE}/conda_build_config.yml
-          EOF
+# #     runs-on: macos-latest
+#     strategy:
+#       matrix:
+#         python_version: [36, 37, 38, 39]
+# #         python_version: [39]
+#     env:
+#       MACOSX_DEPLOYMENT_TARGET: '10.15'
+# #       MACOSX_DEPLOYMENT_TARGET: '11.1'
+#     steps:
+#       - uses: actions/checkout@v2
+#         name: Checkout 
+#       - name: Take ownership of conda installation
+#         run: sudo chown -R $USER $CONDA
+#         shell: bash 
+#       - name: Add conda to PATH
+#         shell: bash
+#         run: echo "$CONDA/bin" >> $GITHUB_PATH
+#       - name: "test environment with conda-build..."
+#         shell: bash
+#         run: |
+#           set -x
+#           xcode-select -p
+#           ls -l /Applications/Xcode*
+#           ls -l /Applications
+#           xcode-select -p
+#           xcodebuild -version
+#           ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
+#       - name: "Creating updated environment with conda-build..."
+#         shell: bash
+#         run: |
+#           set -x
+#           sudo xcode-select --switch /Applications/Xcode_11.7.0.app
+#           xcode-select -p
+#           echo "Downloading ${MACOSX_DEPLOYMENT_TARGET} sdk"
+#           curl -L -O https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz
+#           tar -xf MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk.tar.xz -C "$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs"
+#           cat << EOF >> ${GITHUB_WORKSPACE}/conda_build_config.yml
+#           CONDA_BUILD_SYSROOT:
+#              - $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${MACOSX_DEPLOYMENT_TARGET}.sdk
+#           MACOSX_DEPLOYMENT_TARGET:
+#              - ${MACOSX_DEPLOYMENT_TARGET}
+#           EOF
+#           cat << EOF > ~/.condarc
+#           conda_build:
+#             config_file: ${GITHUB_WORKSPACE}/conda_build_config.yml
+#           EOF
           
-          source activate
-          conda update --yes conda
-          conda create --yes --quiet --name bld --no-default-packages
-          conda install --yes --name bld conda-build
-          ls -l ${GITHUB_WORKSPACE}/conda_build_config.yml ~/.condarc
-          cat ${GITHUB_WORKSPACE}/conda_build_config.yml
-          cat ~/.condarc
-          ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
-      - name: "Building conda package..."
-        shell: bash
-        run: |
-          export PYTHONUNBUFFERED=1
-          set -x
-          source activate bld
-          conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
-      - name: "debug ..."
-        shell: bash
-        run: |          
-          set -x
-          echo $GITHUB_WORKSPACE
-          echo "github.workspace: ${{github.workspace}}"
-          echo "RUNNER_OS $RUNNER_OS"
-          ls -l $GITHUB_WORKSPACE
-          ls -lR $GITHUB_WORKSPACE/channel
-      - uses: actions/upload-artifact@v2
-        with:
-          name: AnacondaPackage
-          path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
+#           source activate
+#           conda update --yes conda
+#           conda create --yes --quiet --name bld --no-default-packages
+#           conda install --yes --name bld conda-build
+#           ls -l ${GITHUB_WORKSPACE}/conda_build_config.yml ~/.condarc
+#           cat ${GITHUB_WORKSPACE}/conda_build_config.yml
+#           cat ~/.condarc
+#           ls -l $(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs
+#       - name: "Building conda package..."
+#         shell: bash
+#         run: |
+#           export PYTHONUNBUFFERED=1
+#           set -x
+#           source activate bld
+#           conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
+#       - name: "debug ..."
+#         shell: bash
+#         run: |          
+#           set -x
+#           echo $GITHUB_WORKSPACE
+#           echo "github.workspace: ${{github.workspace}}"
+#           echo "RUNNER_OS $RUNNER_OS"
+#           ls -l $GITHUB_WORKSPACE
+#           ls -lR $GITHUB_WORKSPACE/channel
+#       - uses: actions/upload-artifact@v2
+#         with:
+#           name: AnacondaPackage
+#           path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
 
-  Approvaljob:
-    needs: [Linuxjob, MacOSjob]
-    runs-on: ubuntu-latest
-    steps:
-    - name: Dependant is Running
-      run: |
-        echo "Sleeping for 10"
-        sleep 10
-        echo "Linuxjob, MacOSjob are completed!!! $(date)"
+#   Approvaljob:
+#     needs: [Linuxjob, MacOSjob]
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Dependant is Running
+#       run: |
+#         echo "Sleeping for 10"
+#         sleep 10
+#         echo "Linuxjob, MacOSjob are completed!!! $(date)"
