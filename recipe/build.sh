@@ -9,8 +9,10 @@ fi
 BUILD_DIR=${SRC_DIR}/build
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}
-echo "wlu - ${BUILD_DIR}"
-ls -lR ${BUILD_DIR}
+
+echo "wlu01 - ${BUILD_DIR}"
+pwd
+echo "wlu01 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
 
 
 PYTHON_INCLUDE_DIR=$(${PYTHON} -c 'import sysconfig;print("{0}".format(sysconfig.get_path("platinclude")))')
@@ -54,14 +56,24 @@ cmake \
     -D GDCM_USE_COREFOUNDATION_LIBRARY:BOOL=OFF \
     "${SRC_DIR}/SuperBuild"
 
+echo "wlu02 - ${BUILD_DIR}"
+pwd
+ls -l $PREFIX/lib/
+echo "wlu02 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
+
 cmake --build . --config Release
 cd ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
-echo "wlu00 - ${BUILD_DIR}/SimpleITK-build/Wrapping/Python"
-ls -lR ${BUILD_DIR}
-ls -lR ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
-${PYTHON} setup.py install
 
-echo "wlu00-install - ${BUILD_DIR}/SimpleITK-build/Wrapping/Python"
-ls -lR ${BUILD_DIR}
-ls -lR ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
-ls -lR ${BUILD_DIR}
+
+echo "wlu03 - ${BUILD_DIR}"
+pwd
+ls -l $PREFIX/lib/
+echo "wlu03 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
+
+
+
+${PYTHON} setup.py install
+echo "wlu04 - ${BUILD_DIR}"
+pwd
+ls -l $PREFIX/lib/
+echo "wlu04 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
