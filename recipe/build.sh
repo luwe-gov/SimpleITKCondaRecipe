@@ -9,6 +9,8 @@ fi
 BUILD_DIR=${SRC_DIR}/build
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}
+echo "wlu - ${BUILD_DIR}"
+ls -lR ${BUILD_DIR}
 
 
 PYTHON_INCLUDE_DIR=$(${PYTHON} -c 'import sysconfig;print("{0}".format(sysconfig.get_path("platinclude")))')
@@ -54,4 +56,12 @@ cmake \
 
 cmake --build . --config Release
 cd ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
+echo "wlu00 - ${BUILD_DIR}/SimpleITK-build/Wrapping/Python"
+ls -lR ${BUILD_DIR}
+ls -lR ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
 ${PYTHON} setup.py install
+
+echo "wlu00-install - ${BUILD_DIR}/SimpleITK-build/Wrapping/Python"
+ls -lR ${BUILD_DIR}
+ls -lR ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
+ls -lR ${BUILD_DIR}
