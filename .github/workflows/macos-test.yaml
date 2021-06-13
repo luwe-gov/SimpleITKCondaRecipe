@@ -79,3 +79,7 @@ jobs:
           set -x
           source activate bld
           conda build --python ${{ matrix.python_version }}  --output-folder channel recipe
+      - uses: actions/upload-artifact@v2
+        with:
+          name: AnacondaPackage
+          path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
