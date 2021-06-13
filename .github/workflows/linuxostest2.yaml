@@ -39,6 +39,7 @@ jobs:
           miniconda-version: ${{env.conda_version}}
           conda-build-version: ${{env.conda_build_version}}
           python-version: ${{ matrix.python-version }}
+          activate-environment: bld
       - name: Conda info
         shell: bash
         run: |
@@ -53,14 +54,14 @@ jobs:
       - name: Add conda to PATH
         shell: bash
         run: echo "$CONDA/bin" >> $GITHUB_PATH
-      - name: "Creating updated environment with conda-build..."
-        shell: bash
-        run: |
-          which conda
-          source activate
-          conda update --yes conda
-          conda create --yes --quiet --name bld --no-default-packages
-          conda install --yes --name bld conda-build
+#       - name: "Creating updated environment with conda-build..."
+#         shell: bash
+#         run: |
+#           which conda
+#           source activate
+#           conda update --yes conda
+#           conda create --yes --quiet --name bld --no-default-packages
+#           conda install --yes --name bld conda-build
       - name: Conda info 11
         shell: bash
         run: |
