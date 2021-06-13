@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # When building 32-bits on 64-bit system this flags is not automatically set by conda-build
 if [ $ARCH == 32 -a "${OSX_ARCH:-notosx}" == "notosx" ]; then
@@ -66,7 +67,13 @@ cd ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
 
 
 echo "wlu03 - ${BUILD_DIR}"
+env
 pwd
+echo "$(pwd)"
+ls -l $PREFIX/lib/
+echo "wlu03a - ${BUILD_DIR}"
+rm -f $PREFIX/lib/*.a
+echo "wlu03b - ${BUILD_DIR}"
 ls -l $PREFIX/lib/
 echo "wlu03 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
 
