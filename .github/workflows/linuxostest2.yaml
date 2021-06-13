@@ -24,7 +24,7 @@ jobs:
         run: |
           set -x
           which cmake
-          cmake version
+          cmake --version
           which conda
           echo "PATH: $PATH"
           echo "CONDA: $CONDA"
