@@ -64,6 +64,7 @@ jobs:
       - name: Conda info 11
         shell: bash
         run: |
+          source activate bld
           which conda
           echo "PATH: $PATH"
           echo "CONDA: $CONDA"
