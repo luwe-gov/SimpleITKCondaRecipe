@@ -72,7 +72,7 @@ pwd
 echo "$(pwd)"
 ls -l $PREFIX/lib/
 echo "wlu03a - ${BUILD_DIR}"
-rm -f $PREFIX/lib/*.a
+# rm -f $PREFIX/lib/*.a
 echo "wlu03b - ${BUILD_DIR}"
 ls -l $PREFIX/lib/
 echo "wlu03 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
