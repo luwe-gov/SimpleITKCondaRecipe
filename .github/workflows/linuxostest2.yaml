@@ -50,3 +50,20 @@ jobs:
           conda list
           conda config --show-sources
           conda config --show
+      - name: "Creating updated environment with conda-build..."
+        shell: bash
+        run: |
+          which conda
+          source activate
+          conda update --yes conda
+      - name: Conda info 11
+        shell: bash
+        run: |
+          which conda
+          echo "PATH: $PATH"
+          echo "CONDA: $CONDA"
+          echo "conda_version: $conda_version"
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
