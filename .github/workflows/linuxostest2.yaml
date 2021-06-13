@@ -59,6 +59,8 @@ jobs:
           which conda
           source activate
           conda update --yes conda
+          conda create --yes --quiet --name bld --no-default-packages
+          conda install --yes --name bld conda-build
       - name: Conda info 11
         shell: bash
         run: |
