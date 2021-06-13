@@ -22,6 +22,9 @@ jobs:
       - name: Conda info 00
         shell: bash
         run: |
+          set -x
+          which cmake
+          cmake version
           which conda
           echo "PATH: $PATH"
           echo "CONDA: $CONDA"
