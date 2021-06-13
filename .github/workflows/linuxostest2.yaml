@@ -37,6 +37,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           miniconda-version: "4.7.10"
+          conda-build-version: "3.18"
           python-version: ${{ matrix.python-version }}
       - name: Conda info
         shell: bash
