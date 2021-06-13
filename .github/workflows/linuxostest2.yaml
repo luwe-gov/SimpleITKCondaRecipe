@@ -38,7 +38,7 @@ jobs:
         with:
           miniconda-version: ${{env.conda_version}}
           conda-build-version: ${{env.conda_build_version}}
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python_version }}
           activate-environment: bld
       - name: Conda info
         shell: bash
