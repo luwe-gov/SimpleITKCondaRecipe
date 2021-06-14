@@ -68,12 +68,20 @@ jobs:
         run: |          
           set -x
           source activate bld
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
           ${LINUX32} conda build --python ${{ matrix.python_version }} --output-folder channel recipe
 
       - name: "Building conda package..."
         shell: bash
         run: |          
           set -x
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
           echo $GITHUB_WORKSPACE
           echo "github.workspace: ${{github.workspace}}"
           echo "RUNNER_OS $RUNNER_OS"
