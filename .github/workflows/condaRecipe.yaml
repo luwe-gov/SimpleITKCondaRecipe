@@ -1,4 +1,4 @@
-name: MacOS Conda build
+name: Conda Recipe build
 
 on:
 #   push:
