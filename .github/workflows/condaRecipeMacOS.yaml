@@ -12,6 +12,45 @@ env:
   conda_build_version: 3.18
 
 jobs:
+  Linuxjob:
+    name: "Linuxjob ${{ matrix.python_version }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_version: [36, 37, 38, 39]
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout 
+
+      - name: Add conda to PATH
+        shell: bash
+        run: echo "$CONDA/bin" >> $GITHUB_PATH
+
+      - name: "Creating updated environment with conda-build..."
+        shell: bash
+        run: |
+          echo "conda_version: $conda_version"
+          echo "conda_build_version: $conda_build_version"
+          which conda
+          conda -V
+          conda info
+          source activate
+          conda update --yes conda
+          conda create --yes --quiet --name bld --no-default-packages
+          conda install --yes --name bld conda-build
+          
+      - name: "Building conda package..."
+        shell: bash
+        run: |          
+          set -x
+          source activate bld
+          ${LINUX32} conda build --python ${{ matrix.python_version }} --output-folder channel recipe
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: AnacondaPackage
+          path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"
+
   MacOSjob:
     name: "MacOSjob ${{ matrix.python_version }}"
     runs-on: macos-latest
