@@ -7,6 +7,12 @@ if [ $ARCH == 32 -a "${OSX_ARCH:-notosx}" == "notosx" ]; then
     export CXXFLAGS="${CXXFLAGS} -m32"
 fi
 
+if [ ! -z ${CONDA_BUILD_SYSROOT:+x} ]; then
+    echo $CMAKE_ARGS
+    export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_OSX_SYSROOT=${CONDA_BUILD_SYSROOT}"
+fi
+
+
 BUILD_DIR=${SRC_DIR}/build
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}
@@ -54,15 +60,13 @@ cmake \
     -D ITK_USE_SYSTEM_ZLIB:BOOL=ON \
     -D ITK_C_OPTIMIZATION_FLAGS:STRING= \
     -D ITK_CXX_OPTIMIZATION_FLAGS:STRING= \
+    -D Module_ITKTBB:BOOL=ON \
     -D GDCM_USE_COREFOUNDATION_LIBRARY:BOOL=OFF \
+    -D NIFTI_SYSTEM_MATH_LIB= \
     "${SRC_DIR}/SuperBuild"
 
-echo "wlu02 - ${BUILD_DIR}"
-pwd
-ls -l $PREFIX/lib/
-echo "wlu02 SRC_DIR - ${SRC_DIR} PREFIX: $PREFIX"
+cmake --build . --config Release --target SimpleITK-build
 
-cmake --build . --config Release
 cd ${BUILD_DIR}/SimpleITK-build/Wrapping/Python
 
 
