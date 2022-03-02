@@ -1,0 +1,94 @@
+name: Linux Conda test
+
+on:
+#   push:
+#     branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  conda_version: 4.7.10
+  conda_build_version: 3.18
+
+jobs:
+  Linuxjob:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+#         python_version: [3.6, 3.7, 3.8, 3.9]
+        python_version: [3.9]
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout 
+
+
+      - name: Conda info 00
+        shell: bash
+        run: |
+          which conda
+          echo "PATH: $PATH"
+          echo "CONDA: $CONDA"
+          echo "conda_version: $conda_version"
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: ${{env.conda_version}}
+          conda-build-version: ${{env.conda_build_version}}
+          python-version: ${{ matrix.python_version }}
+          activate-environment: bld
+      - name: Conda info
+        shell: bash
+        run: |
+          which conda
+          echo "PATH: $PATH"
+          echo "CONDA: $CONDA"
+          echo "conda_version: $conda_version"
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+      - name: Add conda to PATH
+        shell: bash
+        run: echo "$CONDA/bin" >> $GITHUB_PATH
+#       - name: "Creating updated environment with conda-build..."
+#         shell: bash
+#         run: |
+#           which conda
+#           source activate
+#           conda update --yes conda
+#           conda create --yes --quiet --name bld --no-default-packages
+#           conda install --yes --name bld conda-build
+          
+      - name: "Building conda package..."
+        shell: bash
+        run: |          
+          set -x
+          source activate bld
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+          ${LINUX32} conda build --python ${{ matrix.python_version }} --output-folder channel recipe
+
+      - name: "Building conda package..."
+        shell: bash
+        run: |          
+          set -x
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
+          echo $GITHUB_WORKSPACE
+          echo "github.workspace: ${{github.workspace}}"
+          echo "RUNNER_OS $RUNNER_OS"
+          ls -l $GITHUB_WORKSPACE
+          ls -lR $GITHUB_WORKSPACE/channel
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: AnacondaPackage
+          path: "${{github.workspace}}/channel/*/simpleitk*.tar.bz2"

@@ -1,0 +1,41 @@
+name: Python Package Using Anaconda
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build-linux:
+#     runs-on: ubuntu-latest
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniconda-version: "latest"
+        activate-environment: foo
+    - name: Bash
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+    - name: Bash2
+      run: |
+        set -x
+        conda update --yes conda
+        conda create --yes --quiet --name bld --no-default-packages
+        conda install --yes --name bld conda-build
+        echo "CONDA: $CONDA"
+        ls -lr $CONDA/bin
+        cat $CONDA/bin/activate
+    - name: building package
+      run: |
+        set -x
+        echo "CONDA2: $CONDA"
+        ls -lr $CONDA/bin
+        source $CONDA/bin/activate bld
+        conda build --python "3.8" --output-folder channel recipe
+    

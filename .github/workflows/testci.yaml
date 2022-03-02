@@ -1,0 +1,105 @@
+---
+name: CI
+
+on:
+  # push:
+  #   branches: ["master"]
+  # pull_request:
+  #   branches: ["master"]
+  workflow_dispatch:
+env: 
+  myenv1: 'luwe-hi'
+jobs:
+  tests:
+    name: "Python ${{ matrix.minecraft.jar }}"
+#     runs-on: "self-hosted"
+    runs-on: "ubuntu-latest"
+    env:
+      USING_COVERAGE: '3.8'
+      # USING_COVERAGE: '3.6,3.8'
+
+    strategy:
+      matrix:
+        # python-version: ["3.6", "3.7", "3.8", "pypy3"]
+        python-version: ["3.8"]
+        minecraft:
+          - { jar: paper-1.15.2, dockerfile: Dockerfile }
+          - { jar: nukkit-2.0, dockerfile: Dockerfile-nukkit }
+    steps:
+      - uses: "actions/checkout@v2"
+      
+#       - name: "checking "     
+#         run: |
+#            echo "CONDA: $CONDA"  
+#            ls -l $CONDA/bin
+          
+#       - uses: "actions/setup-python@v2"
+#         with:
+#           python-version: "${{ matrix.python-version }}"
+          
+      - name: "checking2 "     
+        run: |
+           echo "RUNNER_OS: $RUNNER_OS"
+           echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }}
+           echo jar: ${{ matrix.minecraft.jar }}  Docker: ${{ matrix.minecraft.dockerfile }} 
+           
+           
+#       - name: "Install dependencies"
+#         run: |
+#           set -xe
+#           cat /etc/os-release
+#           df -h
+#           python -VV
+#           python -m site
+#           python -m pip install --upgrade pip setuptools wheel
+#           python -m pip install --upgrade coverage[toml] virtualenv tox tox-gh-actions          
+
+
+
+      - name: "echo env"
+        run: "echo $myenv1 $USING_COVERAGE ${{ matrix.python-version }} "
+
+#       - uses: conda-incubator/setup-miniconda@v2
+#         with:
+#           miniconda-version: "latest"
+#           activate-environment: foo
+     
+      - name: "checking3 "     
+        run: |
+           set -x
+           echo "action_state=$(date)" >> $GITHUB_ENV
+      - name: "Use the value"
+        id: step_two
+        run: |
+          set -x
+          echo "${{ env.action_state }} --- testing " # This will output 'yellow'
+          echo "action_state: $action_state"
+          echo "action_state1: $ACTION_STATE"
+          echo "action_state2: $VAR_ACTION_STATE"
+          echo "action_state3: $GITHUB_ACTION_STATE"
+
+          
+      # - name: "Run tox targets for ${{ matrix.python-version }}"
+      #   run: "python -m tox"
+#       - name: Setup conda
+#         uses: s-weigand/setup-conda@v1
+#         with:
+#           update-conda: true
+#           python-version: ${{ matrix.python-version }}
+#           conda-channels: anaconda, conda-forge
+#       - run: conda --version
+#       - run: which python
+          
+#       - name: Install dependencies
+#         run: |
+#           # $CONDA is an environment variable pointing to the root of the miniconda directory
+#           # $CONDA/bin/conda env update --file environment.yml --name base
+#           echo "CONDA: $CONDA"    
+      
+#       - name: Conda info
+#         shell: bash -l {0}  # activate the conda environment
+#         run: |
+#           conda info
+#           conda list
+          
+
